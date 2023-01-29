@@ -8,6 +8,8 @@ on:
 
 jobs:
   scan-code:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     outputs:
       exitcode: ${{ steps.secrets-scanner.outputs.exitcode }}
@@ -36,6 +38,7 @@ jobs:
           log_level: "info"
 
       - name: Upload SARIF file
+
         # Only execute if previous step output exit-code == 2
         # if: ${{ env.OUTPUT_EXIT_CODE == 2 }}
         uses: github/codeql-action/upload-sarif@v2

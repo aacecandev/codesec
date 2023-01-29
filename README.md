@@ -12,4 +12,6 @@ Github Action to analyze repositories and code.
 - https://github.com/docker/login-action
 - https://github.com/opencontainers/image-spec/blob/main/annotations.md
 - https://www.shannonentropy.netmark.pl/
+- https://medium.com/fsmk-engineering/automated-sensitive-secrets-monitoring-with-gitleaks-and-github-actions-eb724b53547d
+- https://github.com/stolostron/secure-engineering-container
 - 
