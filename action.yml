@@ -1,4 +1,4 @@
-name: Codesec
+name: Codesec Scanner
 author: aacecandev <dev@aacecan.com>
 description: Find and alert if there are secrets in your CI/CD workflow or repository
 branding:
