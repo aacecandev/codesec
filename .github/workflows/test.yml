@@ -10,6 +10,7 @@ jobs:
   scan-code:
     permissions:
       contents: write
+      security-events: write
     runs-on: ubuntu-latest
     outputs:
       exitcode: ${{ steps.secrets-scanner.outputs.exitcode }}
