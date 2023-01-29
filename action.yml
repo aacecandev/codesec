@@ -1,12 +1,68 @@
-name: 'Container Action Template'
-description: 'Get started with Container actions'
-author: 'GitHub'
-inputs: 
-  myInput:
-    description: 'Input to use'
-    default: 'world'
+name: Actions Secrets Scanner
+author: aacecandev <dev@aacecan.com>
+description: Find and alert if there are secrets in your CI/CD workflow or repository
+branding:
+  icon: alert-triangle
+  color: purple
+inputs:
+  source:
+    description: "Path to source (relative to $GITHUB_WORKSPACE) (default: $GITHUB_WORKSPACE)"
+    required: false
+    default: "TEST"
+  config:
+    description: "Config file path (relative to $GITHUB_WORKSPACE) (default build-in: /.gitleaks/UDMSecretChecks.toml)"
+    required: false
+    default: "./.gitleaks.toml"
+  report_format:
+    description: "Report file format: json, csv, sarif (default: json)"
+    required: false
+    default: "json"
+  report_path:
+    description: "Report file path (default: ./gitleaks-report.json)"
+    required: false
+    default: "./gitleaks-report"
+  no_git:
+    description: "Treat git repos as plain directories and scan those file"
+    required: false
+  redact:
+    description: "Redact secrets from logs and stdout (default: true)"
+    required: false
+    default: "true"
+  exit_code:
+    description: "Exit code thrown if secrets founded (default: 2)"
+    required: false
+    default: "2"
+  verbose:
+    description: "Show verbose output from scan (default: true)"
+    required: false
+    default: "true"
+  log_level:
+    description: "Log level (debug, info, warn, error, fatal) (default: info)"
+    required: false
+    default: "info"
+
+outputs:
+  exitcode:
+    description: "Success for failure value from scan"
+  result:
+    description: "Gitleaks result summary"
+  output:
+    description: "Gitleaks log output"
+  command:
+    description: "Gitleaks executed command"
+  report:
+    description: "Report file path"
+
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: "docker"
+  image: "docker://ghcr.io/aacecandev/action-secrets:latest"
   args:
-    - ${{ inputs.myInput }}
+    - ${{ inputs.source }}
+    - ${{ inputs.config }}
+    - ${{ inputs.report_format }}
+    - ${{ inputs.no_git }}
+    - ${{ inputs.redact }}
+    - ${{ inputs.fail }}
+    - ${{ inputs.verbose }}
+    - ${{ inputs.log_level }}
+

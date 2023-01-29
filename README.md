@@ -1,5 +1,15 @@
-# Container Action Template
+# Codesec Github Action
+Github Action to analyze repositories and code.
 
-To get started, click the `Use this template` button on this repository [which will create a new repository based on this template](https://github.blog/2019-06-06-generate-new-repositories-with-repository-templates/).
+## References
 
-For info on how to build your first Container action, see the [toolkit docs folder](https://github.com/actions/toolkit/blob/master/docs/container-action.md).
+- https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action
+- https://github.com/actions?type=source
+- https://github.com/DariuszPorowski/github-action-gitleaks
+- https://github.com/jessehouwing/gitleaks-azure/blob/main/gitleaks-azure.cmd
+- https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions
+- https://github.com/docker/metadata-action
+- https://github.com/docker/login-action
+- https://github.com/opencontainers/image-spec/blob/main/annotations.md
+- https://www.shannonentropy.netmark.pl/
+- 

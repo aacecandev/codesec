@@ -1,0 +1,52 @@
+name: Test
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  scan-code:
+    runs-on: ubuntu-latest
+    outputs:
+      exitcode: ${{ steps.secrets-scanner.outputs.exitcode }}
+      result: ${{ steps.secrets-scanner.outputs.result }}
+      output: ${{ steps.secrets-scanner.outputs.output }}
+      command: ${{ steps.secrets-scanner.outputs.command }}
+      report: ${{ steps.secrets-scanner.outputs.report }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Secrets Scanner
+        id: secrets-scanner
+        uses: aacecandev/action-secrets@main
+        with:
+          source: "./"
+          config: "./.gitleaks.toml"
+          report_format: "sarif"
+          report_path: "./gitleaks-report.sarif"
+          no_git: "false"
+          redact: "true"
+          exit_code: "2"
+          verbose: "true"
+          log_level: "info"
+
+      - name: Upload SARIF file
+        # Only execute if previous step output exit-code == 2
+        # if: ${{ env.OUTPUT_EXIT_CODE == 2 }}
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          # Path to SARIF file relative to the root of the repository
+          sarif_file: ./gitleaks-report.sarif
+          # Optional category for the results
+          # Used to differentiate multiple results for one commit
+          category: gitleaks-report-sarif
+
+      # - name: Fail if secrets found
+      #   # Only execute if previous step output exit-code == 2
+      #   if: ${{ env.OUTPUT_EXIT_CODE == 2 }}
+      #   run: exit 1

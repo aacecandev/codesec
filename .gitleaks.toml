@@ -1,0 +1,38 @@
+title = "Gitleaks Action Config"
+
+[extend]
+# useDefault will extend the base configuration with the default gitleaks config:
+# https://github.com/zricethezav/gitleaks/blob/master/config/gitleaks.toml
+useDefault = true
+
+# https://github.com/zricethezav/gitleaks/tree/master/cmd/generate/config/rules
+
+[[rules]]
+id = "git-credential"
+description = "Git Credential File"
+regex = '''https?://.+:.+@.*'''
+path = '''\.gitCredentials$'''
+
+[[rules]]
+id = "CSCAN0020"
+description = "Base64EncodedCertificateInFile"
+regex = '''MII[A-Za-z0-9/+]{60}'''
+path = '''\.(?:cert|cer)$'''
+
+[[rules]]
+id = "private-key"
+description = "Private Key"
+path = '''\.pem$'''
+regex = '''-{5}BEGIN(?: (?:[dr]sa|ec|openssh))? PRIVATE KEY-{5}'''
+
+[allowlist]
+description = "Allowlisted files"
+files = [
+    '''(.*?)(png|jpg|gif|tif|tiff|doc|docx|pdf|bin|xls|pyc|zip)$''',
+    '''^\.?gitleaks.toml$''',
+    '''gitleaks.toml''',
+]
+
+commits = []
+paths = []
+repos = []

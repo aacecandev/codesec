@@ -1,0 +1,38 @@
+name: "Release Action"
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/release.yml"
+      - "Dockerfile"
+      - "entrypoint.sh"
+      - "action.yml"
+
+jobs:
+  new-release:
+    runs-on: ubuntu-22.04
+    outputs:
+      new_release_published: ${{ steps.semantic.outputs.new_release_published }}
+      new_release_version: ${{ steps.semantic.outputs.new_release_version }}
+    steps:
+
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v3
+        id: semantic
+        with:
+          semantic_version: "18.0.1"
+          extra_plugins: |
+            @semantic-release/github@8.0.7
+            @semantic-release/commit-analyzer@9.0.2
+            @semantic-release/release-notes-generator@10.0.3
+          branches: |
+            [
+              "main",
+            ]
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
